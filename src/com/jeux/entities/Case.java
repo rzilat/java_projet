@@ -32,7 +32,12 @@ public class Case {
 
 
 	public void setContenu(int contenu) {
-		this.contenu = contenu;
+		if ( contenu >= 0 && contenu <= 2 ) {
+			this.contenu = contenu;
+		}
+		else {
+			this.contenu= 0;
+		}
 	}
 
 
