@@ -73,7 +73,7 @@ public class Ligne {
 		int content = 0;
 		int content1 = 0;
 		boolean victoire = false;
-		for (int i = 0; i <= this.getTaille() - 1; i++) {
+		for (int i = 0; i < this.getTaille()-1; i++) {
 
 			content = this.cases.get(i).getContenu();
 			content1 = this.cases.get(i + 1).getContenu();
@@ -89,7 +89,7 @@ public class Ligne {
 			}
 
 		}
-
+		
 		return victoire;
 
 	}
