@@ -6,8 +6,8 @@ public class Ligne {
 	private ArrayList<Case> cases;
 	
 	
-	//Un constructeur par défaut créant un tableau à une case dont le contenu sera fixé
-	//à 0
+	/*Un constructeur par défaut créant un tableau à une case dont le contenu sera fixé
+	à 0*/
 	public Ligne() {
 		this.cases = new ArrayList<Case>();
 		this.cases.add(new Case());
@@ -74,8 +74,8 @@ public class Ligne {
 
 	}
 	
-	//une méthode qui retournera true si le pion joué permet de créer un alignement
-	//horizontal de 4 pions
+	/*une méthode qui retournera true si le pion joué permet de créer un alignement
+	horizontal de 4 pions*/
 	public boolean gagne() {
 		int comparaison = 0;
 		int content = 0;
@@ -97,13 +97,40 @@ public class Ligne {
 			}
 
 		}
-		
 		return victoire;
+	}
+	
+	/*une méthode qui retournera true si le pion joué permet de créer un alignement
+	horizontal de 3 pions*/
+	public boolean preGagne() {
+		int comparaison = 0;
+		int content = 0;
+		int content1 = 0;
+		boolean preVictoire = false;
+		for (int i = 0; i < this.getTaille()-1; i++) {
+
+			content = this.cases.get(i).getContenu();
+			content1 = this.cases.get(i + 1).getContenu();
+
+			if (content !=0 && content == content1) {
+				//System.out.println("*****"+i+"#####"+(i+1));
+				comparaison = comparaison + 1;
+				if (comparaison == 2) {
+					preVictoire = true;
+					break;
+				}
+			} else {
+				comparaison = 0;
+			}
+
+		}
+		
+		return preVictoire;
 
 	}
 
-	//La méthode toString() qui retournera une chaîne de caractères symbolisant 
-	//une ligne de cases.
+	/*La méthode toString() qui retournera une chaîne de caractères symbolisant 
+	une ligne de cases.*/
 	@Override
 	public String toString() {
 		return "Ligne [cases=" + cases + "]";

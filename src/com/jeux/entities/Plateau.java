@@ -18,8 +18,8 @@ public class Plateau {
 
 	}
 	
-	//Un constructeur prenant en paramètre un nombre de lignes et un nombre de colonnes. 
-	//Le plateau sera rempli de 0.
+	/*Un constructeur prenant en paramètre un nombre de lignes et un nombre de colonnes. 
+	Le plateau sera rempli de 0.*/
 	public Plateau(int nombreLigne, int nombreColonne) {
 
 		this.lignes = new ArrayList<Ligne>(nombreLigne);
@@ -64,16 +64,16 @@ public class Plateau {
 		this.lignes = lignes;
 	}
 	
-	//Une méthode retournant la case se trouvant aux coordonnées(x, y).x correspondant
-	//au numéro de la colonne et y au numéro de la ligne.
+	/*Une méthode retournant la case se trouvant aux coordonnées(x, y).x correspondant
+	au numéro de la colonne et y au numéro de la ligne.*/
 	public Case getXY(int x, int y) {
 		Case c = new Case();
 		c = lignes.get(y).getX(x);
 		return c;
 	}
 
-	//Une méthode permettant de savoir une colonne est pleine ou si un pion
-	//peut y être déposé.
+	/*Une méthode permettant de savoir une colonne est pleine ou si un pion
+	peut y être déposé.*/
 	public boolean colonnePleine(int col) {
 		boolean cp = true;
 		for (int i = 0; i < lignes.size(); i++) {
@@ -86,8 +86,8 @@ public class Plateau {
 		return cp;
 	}
 
-	//Une méthode prenant en parametres le numero de la colonne et du joueur,permettant 
-	//l’ajout d’un pion dans une colonne.
+	/*Une méthode prenant en parametres le numero de la colonne et du joueur,permettant 
+	l’ajout d’un pion dans une colonne.*/
 	public void ajouPion(int numColonne, int numJoueur) {
 		if (!colonnePleine(numColonne)) {
 			for (int i = 0; i < lignes.size(); i++) {
@@ -103,20 +103,18 @@ public class Plateau {
 
 	}
 
-	////une méthode qui retournera true si le pion joué permet de créer un alignement
-	//vertical de 4 pions
+	/*une méthode qui retournera true si le pion joué permet de créer un alignement
+	vertical de 4 pions.*/
 	public boolean gagne() {
 		int comparaison = 0;
 		int content = 0;
 		int content1 = 0;
 		boolean victoire = false;
-		for (int j = 0; j < this.lignes.get(0).getTaille(); j++) {
-			for (int i = 0; i < this.lignes.size() - 1; i++) {
+		for (int j = 0; j < this.getLignes().get(0).getTaille(); j++) {
+			for (int i = 0; i < this.getLignes().size() - 1; i++) {
 				content = this.getXY(j, i).getContenu();
 				content1 = this.getXY(j, i + 1).getContenu();
-
 				if (content != 0 && content == content1) {
-					// System.out.println("("+content+","+content1+")");
 					comparaison = comparaison + 1;
 					if (comparaison == 3) {
 						victoire = true;
@@ -129,80 +127,113 @@ public class Plateau {
 		}
 		return victoire;
 	}
-
-	public boolean gagne2() {
+	
+	/*une méthode qui retournera true si le pion joué permet de créer un alignement
+	vertical de 3 pions.*/
+	public boolean preGagne() {
 		int comparaison = 0;
-		int contentD = 0;
-		int contentD1 = 0;
-		int contentInversD = 0;
-		int contentInversD2 = 0;
-		boolean victoire = false;
-		for (int i = 0; i < this.lignes.size() - 1; i++) {
-			for (int j = 0; j < this.lignes.get(i).getTaille() - 1; j++) {
-
-				contentD = this.getXY(j, i).getContenu();
-				contentD1 = this.getXY(j + 1, i + 1).getContenu();
-				// System.out.println("("+content+","+content1+")");
-				if (contentD != 0 && contentD == contentD1) {
+		int content = 0;
+		int content1 = 0;
+		boolean preVictoire = false;
+		for (int j = 0; j < this.getLignes().get(0).getTaille(); j++) {
+			for (int i = 0; i < this.getLignes().size() - 1; i++) {
+				content = this.getXY(j, i).getContenu();
+				content1 = this.getXY(j, i + 1).getContenu();
+				if (content != 0 && content == content1) {
 					comparaison = comparaison + 1;
-					// System.out.println("aaaaaaaaa"+comparaison);
-					if (comparaison == 3) {
-						victoire = true;
+					if (comparaison == 2) {
+						preVictoire = true;
 						break;
 					}
-				} else if (contentD != 0 && contentD != contentD1) {
+				} else if (content != 0 && content != content1) {
 					comparaison = 0;
-					// System.out.println("bbbbbbbbb"+comparaison);
 				}
-
 			}
-
-		}
-
-		return victoire;
-	}
-
-	public static int meilleurCoup(String plateau, int joueur) {
-		int numColonne = 0;
-		int colonneVide = 0;
-		Plateau p = new Plateau(plateau);
-		int nLigne = p.getLignes().size();
-		int nColonne = p.getLignes().get(0).getTaille();
-		for (int i = 0; i < nLigne; i++) {
-			// p = new Plateau(plateau);
-			for (int j = 0; j < nColonne; j++) {
-				// System.out.print("//"+j);
-				p = new Plateau(plateau);
-
-				p.ajouPion(j, joueur);
-
-				// System.out.print("#"+i+p.getLignes().get(i).gagne());
-				if (p.getLignes().get(i).gagne() || p.gagne()) {
-					numColonne = j;
-					System.out.print("*******" + numColonne + "**" + i);
-					break;
-				}
-				if (!p.colonnePleine(j)) {
-					colonneVide = j;
-				}
-				/*
-				 * if(p.gagne()) { numColonne=j; System.out.print("##"+j+"######"+i); break; }
-				 */
-			}
-			if (numColonne != 0) {
+			if (preVictoire == true) {
 				break;
 			}
 		}
-		if (numColonne == 0) {
-			numColonne = colonneVide;
+		return preVictoire;
+	}
+
+	// IA qui va vérifier si il peut gagner et jouer le bon coup.
+	public int meilleurCoupGangnant(String plateau, int joueur) {
+		int numColonne = -1;
+		Plateau pCG = new Plateau(plateau);
+		int nLigne = pCG.getLignes().size();
+		int nColonne = pCG.getLignes().get(0).getTaille();
+		for (int i = 0; i < nLigne; i++) {
+			 pCG = new Plateau(plateau);
+			for (int j = 0; j < nColonne; j++) {
+				pCG = new Plateau(plateau);
+				pCG.ajouPion(j, joueur);
+				if (pCG.getLignes().get(i).gagne() || pCG.gagne()) {
+					numColonne = j;
+					break;
+				}
+			}
+			if (numColonne >= 0) {
+				break;
+			}
 		}
-		System.out.print(p.toString());
 		return numColonne;
+	}
+	
+	//IA qui va vérifier s’il peut aligner 3 pions et jouer le coup.
+	public int meilleurCoup3Piont(String plateau, int joueur) {
+		int colonne3Piont = -1;
+		Plateau pCP = new Plateau(plateau);
+		int nLigne = pCP.getLignes().size();
+		int nColonne = pCP.getLignes().get(0).getTaille();
+		for (int i = 0; i < nLigne; i++) {
+			 pCP = new Plateau(plateau);
+			for (int j = 0; j < nColonne; j++) {
+				// System.out.print("//"+j);
+				pCP = new Plateau(plateau);
+				pCP.ajouPion(j, joueur);
+				if( pCP.preGagne() || pCP.getLignes().get(i).preGagne()) {
+					//System.out.println("*****"+j+i);
+					colonne3Piont = j;
+					break;
+				}
+			}
+			if (colonne3Piont >= 0) {
+				break;
+			}
+		}
+		return colonne3Piont;
+
+	}
+	
+	// IA qui va choisir une colonne aléatoirement.
+	public int meilleurCoupAliatoire(String plateau, int joueur) {
+		int colonneVide = -1;
+		Plateau pCA = new Plateau(plateau);
+		int nLigne = pCA.getLignes().size();
+		int nColonne = pCA.getLignes().get(0).getTaille();
+		for (int i = 0; i < nLigne; i++) {
+			 pCA = new Plateau(plateau);
+			for (int j = 0; j < nColonne; j++) {
+				// System.out.print("//"+j);
+				pCA = new Plateau(plateau);
+				pCA.ajouPion(j, joueur);
+				
+				if (!pCA.colonnePleine(j)) {
+					colonneVide = j;
+					break;
+				}
+			}
+			if (colonneVide >= 0) {
+				break;
+			}
+		}
+		return colonneVide;
 
 	}
 
-	//Une méthode String toString() retournant le plateau sous forme d’une chaine de
-	//caractères.les lignes sont affichés dans le bon ordre. 
+
+	/*Une méthode String toString() retournant le plateau sous forme d’une chaine de
+	caractères.les lignes sont affichés dans le bon ordre.*/ 
 	@Override
 	public String toString() {
 		String chaine = "";
@@ -219,8 +250,8 @@ public class Plateau {
 		return chaine;
 	}
 
-	//Une méthode retournant une chaine de caractères du constructeur 
-	//Plateau(String chaine).
+	/*Une méthode retournant une chaine de caractères du constructeur 
+	Plateau(String chaine).*/
 	public String toStringPourIA() {
 		String affichage = "";
 		int nLigne = this.lignes.size();

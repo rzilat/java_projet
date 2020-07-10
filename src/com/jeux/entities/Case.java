@@ -9,8 +9,8 @@ public class Case {
 		this.contenu= 0;
 	}
 	
-	//Un constructeur prenant un contenu en parametre qui va etre tester s'il vaut
-	//la valeur d'une case vide ou un numero de joueur sinon un 0 sera affecté 
+	/*Un constructeur prenant un contenu en parametre qui va etre tester s'il vaut
+	la valeur d'une case vide ou un numero de joueur sinon un 0 sera affecté.*/ 
 	public Case(int cont) {
 		if ( cont >= 0 && cont <= 2 ) {
 			this.contenu = cont;
@@ -45,8 +45,8 @@ public class Case {
 		}
 	}
 
-	//la methode toString qui retournera un espace pour une case vide, sinon le numéro
-	//du joueur la contrôlant.
+	/*la methode toString qui retournera un espace pour une case vide, sinon le numéro
+	du joueur la contrôlant.*/
 	@Override
 	public String toString() {
 		return "Case [contenu=" + contenu + "]";
